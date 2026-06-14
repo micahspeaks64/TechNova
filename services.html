@@ -1,0 +1,137 @@
+<a href="WELCOME.html">Welcome</a> | <a href="products.html">Products</a> | <a href="services.html">Services</a> | <a href="contact.html">Contact Us</a>
+<link rel="stylesheet" href="services.css">
+<section class="hero">
+    <div class="hero-content">
+        <h1>Powering Your Digital World</h1>
+        <p>
+            Discover high-performance laptops, smartphones, and accessories 
+            designed to keep you ahead in today’s fast-paced tech world.
+        </p>
+    </div>
+</section>
+<h3>Our Services</h3>
+<ul>
+    <li>Buy Gadgets <a href="products.html">'View Products'</a></li>
+    <li>SoftwareInstallation </li>
+    <li>Laptop Repairs</li>
+    <li>Phone Repairs</li>
+    <li>Data Recovery</li>
+    <li>Network Setup and Troubleshooting</li>
+    <li>Computer Cleaning and Maintenance</li>
+    
+</ul>
+<<h3>ORDER NOW</h3>
+
+<form>
+
+<label>Full Name:</label><br>
+<input type="text" id="name" required><br><br>
+
+<label>Email:</label><br>
+<input type="email" id="email" required><br><br>
+
+<label>Phone Number:</label><br>
+<input type="tel" id="phone" required><br><br>
+
+<label>Select Service:</label><br>
+<select id="service" onchange="handleServiceChange()" required>
+    <option value="">--Please choose an option--</option>
+    <option value="buy_gadgets">Buy Gadgets</option>
+    <option value="software_installation">Software Installation</option>
+    <option value="laptop_repairs">Laptop Repairs</option>
+    <option value="phone_repairs">Phone Repairs</option>
+    <option value="data_recovery">Data Recovery</option>
+    <option value="network_setup">Network Setup</option>
+</select><br><br>
+
+<label>Quantity:</label><br>
+<input type="number" id="quantity" required><br><br>
+
+<label>Delivery Address:</label><br>
+<input type="text" id="address" required><br><br>
+
+<!-- PAYMENT METHOD -->
+<h3>Payment Method</h3>
+
+<label>
+    <input type="radio" name="payment" value="bank" onclick="showPayment()"> Bank Transfer
+</label><br>
+<form>
+<!-- BANK DETAILS -->
+<div id="bankDetails" style="display:none;">
+    <h4>Bank Transfer Details</h4>
+    <p>Bank Name: OPAY</p>
+    <p>Account Name: Nasaya Paul</p>
+    <p>Account Number: 1234567890</p>
+</div>
+
+<!-- CARD PAYMENT BUTTON -->
+<div id="cardDetails" style="display:none;">
+    <button type="button" onclick="makePayment()">Pay with Card</button>
+</div>
+
+<!-- CASH MESSAGE -->
+<div id="cashDetails" style="display:none;">
+    <p>You will pay cash on delivery.</p>
+</div>
+
+<br>
+<button type="submit">Submit Request</button>
+
+</form>
+    </form>
+
+    <h3>Bank Transfer Details</h3>
+    <p>Bank Name: OPAY Bank</p>
+    <p>Account Name: Nasaya Paul</p>
+    <p>Account Number: 1234567890</p>
+
+    <p><strong>Note:</strong> Card payments are processed online. Cash payments are accepted upon pickup or delivery.</p>
+</section>
+    </select><br><br>
+    <script src="https://checkout.flutterwave.com/v3.js"></script>
+
+<script>
+function showPayment() {
+    let method = document.querySelector('input[name="payment"]:checked').value;
+
+    document.getElementById("bankDetails").style.display = "none";
+    document.getElementById("cardDetails").style.display = "none";
+    document.getElementById("cashDetails").style.display = "none";
+
+    if (method === "bank") {
+        document.getElementById("bankDetails").style.display = "block";
+    } 
+    else if (method === "card") {
+        document.getElementById("cardDetails").style.display = "block";
+    } 
+    else if (method === "cash") {
+        document.getElementById("cashDetails").style.display = "block";
+    }
+}
+
+// FLUTTERWAVE PAYMENT
+function makePayment() {
+    FlutterwaveCheckout({
+        public_key: "FLWPUBK_TEST-xxxxxxxxxxxxxxxxxxxxx-X", // 🔴 Replace with your real key
+        tx_ref: "TX-" + Date.now(),
+        amount: 5000, // 🔴 You can calculate this dynamically later
+        currency: "NGN",
+        payment_options: "card, banktransfer, ussd",
+        customer: {
+            email: document.getElementById("email").value,
+            phone_number: document.getElementById("phone").value,
+            name: document.getElementById("name").value,
+        },
+        callback: function (data) {
+            alert("Payment successful!");
+            console.log(data);
+        },
+        customizations: {
+            title: "TechNova Services",
+            description: "Payment for service",
+        }
+    });
+}
+</script>
+</body>
